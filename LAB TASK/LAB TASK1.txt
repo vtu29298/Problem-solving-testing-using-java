@@ -1,0 +1,33 @@
+import java.util.Scanner;
+
+public class SalaryTransformationSystem {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter Employee Name: ");
+        String name = sc.nextLine();
+
+        System.out.print("Enter Basic Salary: ");
+        double basic = sc.nextDouble();
+
+        double hra = basic * 0.20;
+        double da = basic * 0.10;
+        double allowance = basic * 0.05;
+
+        double gross = basic + hra + da + allowance;
+        double deduction = gross * 0.08;
+        double net = gross - deduction;
+
+        System.out.println("\n----- SALARY DETAILS -----");
+        System.out.println("Employee Name : " + name);
+        System.out.println("Basic Salary  : " + basic);
+        System.out.println("HRA           : " + hra);
+        System.out.println("DA            : " + da);
+        System.out.println("Allowance     : " + allowance);
+        System.out.println("Gross Salary  : " + gross);
+        System.out.println("Deduction     : " + deduction);
+        System.out.println("Net Salary    : " + net);
+
+        sc.close();
+    }
+}
