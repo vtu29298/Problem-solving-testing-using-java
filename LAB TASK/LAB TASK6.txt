@@ -1,0 +1,76 @@
+import java.util.*;
+
+public class Main {
+
+    static class Driver {
+        String name;
+        boolean available;
+
+        Driver(String name) {
+            this.name = name;
+            this.available = true;
+        }
+    }
+
+    static class Ride {
+        String passenger;
+        Driver driver;
+        double distance;
+        double fare;
+
+        Ride(String passenger, Driver driver, double distance) {
+            this.passenger = passenger;
+            this.driver = driver;
+            this.distance = distance;
+            this.fare = distance * 15;
+        }
+
+        void display() {
+            System.out.println("\n--- Ride Details ---");
+            System.out.println("Passenger: " + passenger);
+            System.out.println("Driver: " + driver.name);
+            System.out.println("Distance: " + distance + " km");
+            System.out.println("Fare: Rs." + fare);
+        }
+    }
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        ArrayList<Driver> drivers = new ArrayList<>();
+
+        drivers.add(new Driver("Rahul"));
+        drivers.add(new Driver("Arjun"));
+        drivers.add(new Driver("Kiran"));
+
+        System.out.println("=== RIDE SHARING PLATFORM ===");
+
+        System.out.print("Enter passenger name: ");
+        String passenger = sc.nextLine();
+
+        System.out.print("Enter distance in km: ");
+        double distance = sc.nextDouble();
+
+        Driver assignedDriver = null;
+
+        for (Driver d : drivers) {
+            if (d.available) {
+                assignedDriver = d;
+                d.available = false;
+                break;
+            }
+        }
+
+        if (assignedDriver != null) {
+            Ride ride = new Ride(passenger, assignedDriver, distance);
+
+            System.out.println("\nRide booked successfully!");
+            ride.display();
+        } else {
+            System.out.println("\nNo drivers available.");
+        }
+
+        sc.close();
+    }
+}
