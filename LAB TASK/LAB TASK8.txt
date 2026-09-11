@@ -1,0 +1,97 @@
+import java.util.*;
+
+public class Main {
+
+    static class Edge {
+        int to;
+        int distance;
+
+        Edge(int to, int distance) {
+            this.to = to;
+            this.distance = distance;
+        }
+    }
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        int n = 5;
+
+        ArrayList<Edge>[] graph = new ArrayList[n];
+
+        for (int i = 0; i < n; i++) {
+            graph[i] = new ArrayList<>();
+        }
+
+        // Road connections
+        graph[0].add(new Edge(1, 4));
+        graph[0].add(new Edge(2, 2));
+
+        graph[1].add(new Edge(0, 4));
+        graph[1].add(new Edge(2, 1));
+        graph[1].add(new Edge(3, 5));
+
+        graph[2].add(new Edge(0, 2));
+        graph[2].add(new Edge(1, 1));
+        graph[2].add(new Edge(3, 8));
+        graph[2].add(new Edge(4, 10));
+
+        graph[3].add(new Edge(1, 5));
+        graph[3].add(new Edge(2, 8));
+        graph[3].add(new Edge(4, 2));
+
+        graph[4].add(new Edge(2, 10));
+        graph[4].add(new Edge(3, 2));
+
+        System.out.print("Enter source location (0-4): ");
+        int source = sc.nextInt();
+
+        System.out.print("Enter destination location (0-4): ");
+        int destination = sc.nextInt();
+
+        int[] distance = new int[n];
+        Arrays.fill(distance, Integer.MAX_VALUE);
+
+        distance[source] = 0;
+
+        PriorityQueue<int[]> pq =
+            new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+
+        pq.add(new int[]{source, 0});
+
+        while (!pq.isEmpty()) {
+
+            int[] current = pq.poll();
+
+            int node = current[0];
+            int dist = current[1];
+
+            if (dist > distance[node]) {
+                continue;
+            }
+
+            for (Edge edge : graph[node]) {
+
+                int newDistance = dist + edge.distance;
+
+                if (newDistance < distance[edge.to]) {
+                    distance[edge.to] = newDistance;
+                    pq.add(new int[]{edge.to, newDistance});
+                }
+            }
+        }
+
+        if (distance[destination] == Integer.MAX_VALUE) {
+            System.out.println("No route available.");
+        } else {
+            System.out.println("\n--- Smart Navigation ---");
+            System.out.println("Source: " + source);
+            System.out.println("Destination: " + destination);
+            System.out.println("Shortest distance: "
+                    + distance[destination] + " km");
+        }
+
+        sc.close();
+    }
+}
